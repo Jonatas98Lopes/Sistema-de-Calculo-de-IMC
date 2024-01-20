@@ -9,12 +9,12 @@ def interface():
     layout = [
         [
             sg.Text('Altura(em centímetros)', size=(20,1)),
-            sg.Input(key='height', size=(3,1))
+            sg.Input(key='height', size=(5,1))
         ],
 
         [
             sg.Text('Peso(em kilos)', size=(20,1)),
-            sg.Input(key='weight',  size=(3,1))
+            sg.Input(key='weight',  size=(5,1))
             
         ],
 
@@ -59,9 +59,9 @@ while True:
         
         if eValor_numerico(altura) and eValor_numerico(peso):
 
-
-            altura = float(altura) / 100
-            peso = float(peso)
+            
+            altura = float(altura.replace(',', '.')) / 100
+            peso = float(peso.replace(',', '.'))
             imc = peso / (altura ** 2)
 
 
