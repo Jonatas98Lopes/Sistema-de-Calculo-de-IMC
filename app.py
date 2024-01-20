@@ -18,6 +18,8 @@ def interface():
             
         ],
 
+        [sg.Text(key='invalid_values', text_color='red')],
+
         [sg.Text(key='imc_category',
                  font=('', 18, 'bold'), 
                  text_color='#fba900',
@@ -27,15 +29,39 @@ def interface():
         [sg.Text(key='imc',
                  font=('', 14, 'bold'), 
                  justification='center')],
-                 
+
         [sg.Button('Calcular')]
     ]
 
     return sg.Window('IMC', layout=layout)
 
 
+def contem_apenas_numeros(texto: str) -> bool:
+    return texto.isdigit()
+
+def eValor_numerico(texto: str) -> bool:
+    virgula = contem_apenas_numeros("".join(texto.split(",")))
+    ponto = contem_apenas_numeros("".join(texto.split(".")))
+    return (virgula or ponto)
+        
+
 window = interface()
-window.read()
+while True:
+    event, values = window.read()
+
+    if event == sg.WINDOW_CLOSED: break
+
+    else:
+        altura = values['height'].strip()
+        peso = values['weight'].strip()
+        
+        if eValor_numerico(altura) and eValor_numerico(peso):
+            window['invalid_values'].update('')
+           
+
+        else: 
+            window['invalid_values'].update('ALTURA OU PESO INVÁLIDOS.')
+
 
 
 
