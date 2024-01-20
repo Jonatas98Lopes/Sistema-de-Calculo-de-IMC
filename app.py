@@ -20,10 +20,8 @@ def interface():
 
         [sg.Text(key='invalid_values', text_color='red')],
 
-        [sg.Text(key='imc_category',
-                 font=('', 18, 'bold'), 
-                 text_color='#fba900',
-                 justification='center')
+        [sg.Text(key='imc_category', font=('', 18, 'bold'), 
+            justification='center')
         ],
 
         [sg.Text(key='imc',
@@ -52,12 +50,47 @@ while True:
     if event == sg.WINDOW_CLOSED: break
 
     else:
+        window['invalid_values'].update('')
+        window['imc_category'].update('')
+        window['imc'].update('')
+
         altura = values['height'].strip()
         peso = values['weight'].strip()
         
         if eValor_numerico(altura) and eValor_numerico(peso):
-            window['invalid_values'].update('')
-           
+
+
+            altura = float(altura) / 100
+            peso = float(peso)
+            imc = peso / (altura ** 2)
+
+
+            if imc < 18.5:
+                window['imc_category'].update(text_color='pink')
+                window['imc_category'].update('Abaixo do peso')
+
+            elif imc < 25:
+                window['imc_category'].update(text_color='green')
+                window['imc_category'].update('Peso normal')
+
+            elif imc < 30:
+                window['imc_category'].update(text_color='orange')
+                window['imc_category'].update('Sobrepeso')
+
+            elif imc < 35:
+                window['imc_category'].update(text_color='red')
+                window['imc_category'].update('Obesidade Grau I')
+
+            elif imc < 40:
+                window['imc_category'].update(text_color='red')
+                window['imc_category'].update('Obesidade Grau II')
+    
+            else:
+                window['imc_category'].update(text_color='red')
+                window['imc_category'].update('Obesidade Grau III')
+    
+
+            window['imc'].update(f'IMC: {imc:.2f}') 
 
         else: 
             window['invalid_values'].update('ALTURA OU PESO INVÁLIDOS.')
@@ -68,24 +101,3 @@ while True:
 
 
 
-""" altura = float(input("Digite sua altura: "))
-peso = float(input("Digite seu peso: "))
-imc = peso / (altura ** 2)
-
-
-
-if imc < 18.5:
-    print('Abaixo do peso')
-elif imc < 25:
-    print('Peso normal')
-elif imc < 30:
-    print('Sobrepeso')
-elif imc < 35:
-    print('Obesidade Grau I')
-elif imc < 40:
-    print('Obesidade Grau II')
-else:
-    print('Obesidade Grau III')
-
-
-print(f'IMC: {imc:.2f}') """
